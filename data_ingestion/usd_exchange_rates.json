@@ -1,0 +1,14 @@
+[
+    {
+        "Timestamp": "2024-11-17 13:38:56",
+        "From Currency": "USD",
+        "To Currency": "JPY",
+        "Exchange Rate": 154.340504
+    },
+    {
+        "Timestamp": "2024-11-17 13:39:23",
+        "From Currency": "USD",
+        "To Currency": "EUR",
+        "Exchange Rate": 0.94835
+    }
+]
