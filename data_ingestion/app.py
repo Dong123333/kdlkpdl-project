@@ -1,28 +1,48 @@
 from fastapi import FastAPI
+from apscheduler.schedulers.background import BackgroundScheduler
 import requests
-import time
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 app = FastAPI()
 
-BASE_URL = ''
+ACCESS_KEY = '83af42ba871605f4dcb424999e89f30d'
+URL = 'http://apilayer.net/api/live'
 
+exchange_rate_history = []
 
-def fetch_forex_rate(from_currency='USD', to_currency='JPY'):
+def fetch_exchange_rates(from_currency: str, to_currency: str):
     try:
-        url = f'{BASE_URL}?function=CURRENCY_EXCHANGE_RATE&from_currency={from_currency}&to_currency={to_currency}&apikey={API_KEY}'
+        url = f'{URL}?access_key={ACCESS_KEY}&currencies={to_currency}&source={from_currency}&format=1'
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
-        exchange_rate = data['Realtime Currency Exchange Rate']['5. Exchange Rate']
-        return exchange_rate
 
+        if data.get('success'):
+            exchange_rate = data['quotes'].get('USDJPY')
+            timestamp = datetime.utcfromtimestamp(data['timestamp']).replace(tzinfo=ZoneInfo("UTC")).astimezone(ZoneInfo("Asia/Ho_Chi_Minh")).strftime('%d-%m-%Y %H:%M:%S')
+            record = {
+                'Timestamp': timestamp,
+                'From Currency': from_currency,
+                'To Currency': to_currency,
+                'Exchange Rate': exchange_rate
+            }
+            exchange_rate_history.append(record)
+            
+        else:
+            return {"error": "API không trả về dữ liệu hợp lệ"}
     except requests.exceptions.RequestException as e:
-        print('Lỗi khi gọi API:', e)
+        return {"error": str(e)}
+    
+scheduler = BackgroundScheduler()
 
-@app.get("/crawl-data")
-async def crawl_data():
-    data = fetch_forex_rate('USD','JPY')
-    if data:
-        return data
-    else:
-        return "Lỗi"
+def start_periodic_task():
+    fetch_exchange_rates('USD', 'JPY')
+    scheduler.add_job(fetch_exchange_rates, 'interval', minutes=1, args=['USD', 'JPY'])
+
+@app.get('/get-exchange-rate')
+def get_exchange_rate():
+    if not scheduler.running:
+        start_periodic_task()
+        scheduler.start()
+    return {"exchange_rate_history": exchange_rate_history}
