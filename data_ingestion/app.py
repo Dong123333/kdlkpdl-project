@@ -6,7 +6,7 @@ from zoneinfo import ZoneInfo
 
 app = FastAPI()
 
-ACCESS_KEY = '6667dbb87fc9908118c18b017a8b06e6'
+ACCESS_KEY = '873de0d7c1b57c6b5415f35598d8f7a6'
 URL = 'http://apilayer.net/api/live'
 
 exchange_rate_history = {}
@@ -20,7 +20,7 @@ def fetch_exchange_rates(from_currency: str, to_currencies: list):
         data = response.json()
 
         if data.get('success'):
-            timestamp = datetime.utcfromtimestamp(data['timestamp']).replace(tzinfo=ZoneInfo("UTC")).astimezone(ZoneInfo("Asia/Ho_Chi_Minh")).strftime('%d-%m-%Y %H:%M:%S')
+            timestamp = datetime.utcfromtimestamp(data['timestamp']).replace(tzinfo=ZoneInfo("UTC")).astimezone(ZoneInfo("Asia/Ho_Chi_Minh")).strftime('%Y-%m-%d %H:%M:%S')
             
             for to_currency in to_currencies:
                 pair = f"{from_currency}{to_currency}"
