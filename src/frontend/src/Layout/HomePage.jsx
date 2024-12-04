@@ -170,7 +170,11 @@ function HomePage({ children }) {
                     {formattedNewRateJPY}
                   </p>
                 </div>
-                <div>
+                <div
+                  className={`${
+                    isNegativeJPY ? "text-[#a50e0e]" : "text-[#137333]"
+                  }`}
+                >
                   <p className="text-[#137333] text-[12px] font-bold">
                     {displayChangePercentJPY}
                   </p>
