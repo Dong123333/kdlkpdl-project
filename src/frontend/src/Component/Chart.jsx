@@ -21,7 +21,11 @@ function Chart(props) {
   };
   return (
     <div>
-      <Plot data={[chartData]} layout={layout} />
+      <Plot
+        data={[chartData]}
+        layout={layout}
+        style={{ width: "100%", height: "300px" }}
+      />
     </div>
   );
 }
