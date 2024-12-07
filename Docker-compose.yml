@@ -2,14 +2,14 @@ version: "3.9"
 services:
   data_ingestion:
     container_name: data_ingestion_container
-    build: ./data_ingestion
+    build: ./src/data_ingestion
     ports:
       - "8000:8000"
     networks:
       - my_network
   database_api:
     container_name: database_api_container
-    build: ./database_api
+    build: ./src/database_api
     restart: always
     depends_on:
       - database
@@ -19,18 +19,25 @@ services:
       - my_network
   database:
     container_name: database_container
-    build: ./database
+    build: ./src/database
     ports:
       - "6603:3306"
     networks:
       - my_network
   frontend:
     container_name: frontend_container
-    build: ./frontend
+    build: ./src/frontend
     depends_on:
       - database_api
     ports:
       - "3000:80"
+    networks:
+      - my_network
+  backend_service:
+    container_name: backend_service_container
+    build: ./src/backend_services/prediction
+    ports:
+      - "8001:8001"
     networks:
       - my_network
 

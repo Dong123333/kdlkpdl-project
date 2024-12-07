@@ -24,7 +24,7 @@ function Chart(props) {
       <Plot
         data={[chartData]}
         layout={layout}
-        style={{ width: "100%", height: "300px" }}
+        style={{ width: "100%", height: "450px" }}
       />
     </div>
   );

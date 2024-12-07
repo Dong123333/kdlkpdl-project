@@ -6,7 +6,7 @@ from zoneinfo import ZoneInfo
 
 app = FastAPI()
 
-ACCESS_KEY = '873de0d7c1b57c6b5415f35598d8f7a6'
+ACCESS_KEY = '8433dcc27f96540a0752fc24500b6f6d'
 URL = 'http://apilayer.net/api/live'
 
 exchange_rate_history = {}

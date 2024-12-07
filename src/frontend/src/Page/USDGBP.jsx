@@ -1,10 +1,16 @@
-import Chart from "../Component/Chart.jsx";
-import PriceDisplay from "../Component/PriceDisplay.jsx";
+import { useState } from "react";
 import { useRateContext } from "../context/index.jsx";
+import Chart from "../Component/Chart.jsx";
+import HalfHourlyChart from "../Component/HalfHourlyChart.jsx";
+import HourlyChart from "../Component/HourlyChart.jsx";
+import PriceDisplay from "../Component/PriceDisplay.jsx";
 
 function USDGBPPage() {
   const { ratesGBP } = useRateContext();
-
+  const [chartType, setChartType] = useState("minute");
+  const handleChangeChartType = (type) => {
+    setChartType(type);
+  };
   let changePercent = 0;
   let displayValueChange = "";
   let valueChange = 0.0;
@@ -35,7 +41,42 @@ function USDGBPPage() {
           changeValue={displayValueChange}
           isNegative={isNegative}
         />
-        <Chart rates={ratesGBP} />
+        <div className="flex items-center gap-x-10 my-2 ml-4">
+          <button
+            onClick={() => handleChangeChartType("minute")}
+            className="hover:bg-[#f1f3f4] h-[32px] w-[120px]"
+            style={{
+              color: chartType === "minute" ? "blue" : "#000",
+              borderBottom: chartType === "minute" ? "2px solid blue" : "none",
+            }}
+          >
+            1 phút
+          </button>
+          <button
+            onClick={() => handleChangeChartType("thirty-minute")}
+            className="hover:bg-[#f1f3f4] h-[32px] w-[120px]"
+            style={{
+              color: chartType === "thirty-minute" ? "blue" : "#000",
+              borderBottom:
+                chartType === "thirty-minute" ? "2px solid blue" : "none",
+            }}
+          >
+            30 phút
+          </button>
+          <button
+            onClick={() => handleChangeChartType("hour")}
+            className="hover:bg-[#f1f3f4] h-[32px] w-[120px] "
+            style={{
+              color: chartType === "hour" ? "blue" : "#000",
+              borderBottom: chartType === "hour" ? "2px solid blue" : "none",
+            }}
+          >
+            1 giờ
+          </button>
+        </div>
+        {chartType === "minute" && <Chart rates={ratesGBP} />}
+        {chartType === "thirty-minute" && <HalfHourlyChart rates={ratesGBP} />}
+        {chartType === "hour" && <HourlyChart rates={ratesGBP} />}
       </div>
     </div>
   );

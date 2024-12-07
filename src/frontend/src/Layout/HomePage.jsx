@@ -175,10 +175,10 @@ function HomePage({ children }) {
                     isNegativeJPY ? "text-[#a50e0e]" : "text-[#137333]"
                   }`}
                 >
-                  <p className="text-[#137333] text-[12px] font-bold">
+                  <p className="text-[12px] font-bold">
                     {displayChangePercentJPY}
                   </p>
-                  <p className="text-[#137333] text-[12px] font-medium">
+                  <p className="text-[12px] font-medium">
                     {displayValueChangeJPY}
                   </p>
                 </div>
@@ -210,11 +210,15 @@ function HomePage({ children }) {
                     {formattedNewRateGBP}
                   </p>
                 </div>
-                <div>
-                  <p className="text-[#137333] text-[12px] font-bold">
+                <div
+                  className={`${
+                    isNegativeGBP ? "text-[#a50e0e]" : "text-[#137333]"
+                  }`}
+                >
+                  <p className="text-[12px] font-bold">
                     {displayChangePercentGBP}
                   </p>
-                  <p className="text-[#137333] text-[12px] font-medium">
+                  <p className="text-[12px] font-medium">
                     {displayValueChangeGBP}
                   </p>
                 </div>
@@ -246,11 +250,15 @@ function HomePage({ children }) {
                     {formattedNewRateEUR}
                   </p>
                 </div>
-                <div>
-                  <p className="text-[#137333] text-[12px] font-bold">
+                <div
+                  className={`${
+                    isNegativeEUR ? "text-[#a50e0e]" : "text-[#137333]"
+                  }`}
+                >
+                  <p className="text-[12px] font-bold">
                     {displayChangePercentEUR}
                   </p>
-                  <p className="text-[#137333] text-[12px] font-medium">
+                  <p className="text-[12px] font-medium">
                     {displayValueChangeEUR}
                   </p>
                 </div>
